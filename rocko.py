@@ -56,13 +56,19 @@ class MainTransformer(Transformer):
     def array_access(self, name, *exprs):
         return f"{name}{''.join([f'[{x}]' for x in exprs])}"
 
+    def import_(self, name):
+        return f"import {name}"
+
+    def from_import(self, name, *modules):
+        return f"from {name} import {', '.join(modules)}"
+
     def array_assignment(self, name, *args):
         *exprs, expr = args
         return f"{name}{''.join([f'[{x}]' for x in exprs])} = {expr}"
 
     def comment(self, comment_open, comment, newline):
         space = "" if comment.startswith(comment_open) else " "
-        return f"{comment_open.value}{space}{comment.value}"
+        return f"#{space}{comment.value}"
 
     def block(self, indent, *statements):
         return "\n".join([self.ws() + x for x in statements[:-1]])
@@ -118,14 +124,23 @@ grammar = r"""
           | assignment
           | array_assignment
           | return_statement
+          | import
+          | from_import
 
 func_def: "function" NAME "(" ((NAME ",")* NAME)? "):" block
 return_statement: "return" expr _NL
+
 assignment: NAME "=" expr _NL
 array_assignment: NAME ("[" expr "]")+ "=" expr _NL
-!comment: "#" /[^\n]+/x _NL
+
 !if_block: "if" expr ":" block ("elseif" expr ":" block)* ("else" ":" block)?
+
 for_block: "for" NAME "=" expr "->" expr ":" block
+
+import: "import" NAME _NL -> import_
+from_import: "from" NAME "import" NAME ("," NAME)*
+
+!comment: ("#" | "//") /[^\n]+/x _NL
 
 ?expr: string
      | number
@@ -143,7 +158,21 @@ func_call: NAME "(" ((expr ",")* expr)? ")"
 binary_operation: expr binary_operator expr
 paren_expr: "(" expr ")"
 
-!binary_operator: "+" | "-" | "/" | "*" | "%" | ">" | ">=" | "<" | "<=" | "==" | "||" | "or" | "&&" | "and" | "&" | "|"
+!binary_operator: "+"
+                | "-"
+                | "/"
+                | "*"
+                | "%"
+                | ">"
+                | ">="
+                | "<"
+                | "<="
+                | "=="
+                | "||"
+                | "&&"
+                | "|"
+                | "&" 
+
 ?block: _NL indent statement+ dedent
 indent: _INDENT -> indent_
 dedent: _DEDENT
@@ -169,7 +198,10 @@ parser = Lark(grammar, parser="lalr", postlex=MainIndenter())
 
 if __name__ == "__main__":
     test_input = """
+import math
+from math import sin, cos
 # convert 1-index to 0-index
+// foo test
 
 function lcs(n, x, y):
     T = zeroed_array_of_dimensions(n, n)
@@ -186,7 +218,7 @@ function lcs(n, x, y):
                 T[i][j] = T[i-1][j-1] + 1
             elseif 42 == 34:
                 print("OK")
-            elseif 42 || ((5 < 6) and 55 >= 2):
+            elseif 42 || ((5 < 6) && 55 >= 2):
                 if asd() <= 42 | 6:
                     print("OK")
                 print("OK")
