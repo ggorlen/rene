@@ -20,7 +20,7 @@ See [`lcs.rene`](lcs.rene) for example code and [`rene.lark`](rene.lark) for the
 
 This is a heavily constrained Python-like (whitespace significant) toy language that attempts to disallow any features or syntax that isn't allowed on homework or exams. Notably:
 
-- All you get are variables, numbers, fixed-size arrays, loops, conditions and function calls. You can call plain functions like `print` but not instance methods like `math.log2`.
+- All you get are variables, numbers, fixed-size arrays, loops, conditions and function calls. You can call plain functions like `print` but not methods like `math.log2`.
   - You should restrict your function calls to `max`, `min`, `abs` and that ilk.
 - No augmented assignments like `+=` or `++`. Use `foo = foo + 1`.
 - No dicts or lists. Use fixed arrays.
