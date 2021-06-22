@@ -18,21 +18,21 @@ This language is named Rene after a frog that appeared in some homework problems
 
 See [`lcs.rene`](lcs.rene) for example code and [`rene.lark`](rene.lark) for the grammar.
 
-This is a heavily constrained Python-like (whitespace significant) toy language that attempts to disallow any features or syntax that isn't allowed on homework or exams. Notably:
+This is a heavily constrained Python-like (whitespace significant) toy language that attempts to disallow any syntax or features that aren't allowed on homework or exams. Notably:
 
-- All you get are variables, numbers, fixed-size arrays, loops, conditions and function calls. You can call plain functions like `print` but not methods like `math.log2`.
-  - You should restrict your function calls to `max`, `min`, `abs` and that ilk.
-- No augmented assignments like `+=` or `++`. Use `foo = foo + 1`.
-- No dicts or lists. Use fixed arrays.
-- No `len(iterable)`. Add explicit length variables to the function header.
-- No `for i in range(0, n):`. Use `for i = 1 -> n:`, where `n` is inclusive and transpiles to `for i in range(1, n + 1)`.
-- No `and` and `or`. Use `&&` and `||`.
-- 4-space indentation only.
+- Your tools are variables, numbers, fixed-size arrays, loops, conditions and function calls. You can call plain functions like `print` but not methods like `math.log2`.
+  - It's a good idea to restrict your function calls to those in the spirit of pseudocode, `max`, `min`, `abs` and so forth.
+- Instead of augmented assignments like `+=` and unary operations like `++`, use `foo = foo + 1`.
+- Instead of dicts or lists, use fixed arrays.
+- Instead of `len(iterable)`, add explicit length variables to the function header.
+- Instead of `for i in range(0, n):`, use `for i = 1 -> n:`, where `n` is inclusive and transpiles to `for i in range(1, n + 1)`.
+- Instead of `and` and `or`, use `&&` and `||`.
+- 4-space indentation is required.
 - Only `/` is allowed for division. `//` is a comment. If you need floor division, add `from math import floor` and call `floor()` explicitly, but you probably won't need this, or floating point anything.
 
 Some syntactical restrictions are due to my own ignorance. Please PR if you can fix these:
 - Blank lines are allowed, but the spaces in the lines need to match the current indentation level.
-- `else if`, `elif` and `elsif` are `elseif` in this language. `else if` is probably safer for your submissions. That said, you probably won't need to use `else if`.
+- `else if`, `elif` and `elsif` are `elseif` in this language. Changing this by hand to `else if` is probably safer for homework submissions. You probably won't need to use `else if`.
 
 There is no semantic analyzer in Rene, only parsing errors, so it's up to you to debug in Python, which will mostly look like the Rene code other than line numbers and a few extra array conversion calls.
 
@@ -44,7 +44,7 @@ There are two function calls that make 1-indexed arrays:
 - `Array(*dimensions)` (alias: `Table`): this array is uninitialized so you'll need to write explicit loops to set values. You can use `INFINITY` and `NEGATIVE_INFINITY` instead of `float("inf")`.
 - `array_from_iterable(it)`: converts an iterable to a 1-indexed iterable. You won't need to call this; the transpiler will insert calls for you on any `Array` parameters. Currently, Rene doesn't generate code to stop you from illegally accessing index 0 on these parameters since it's the same structure as your arrays/tables, so take care.
 
-Rene does support strings but they're not 1-indexed. You could call `s = array_from_iterable(s)`, but strings are mainly available for debugging messages rather than DP logic. Use an `Array` parameter if your function receives a string.
+Rene does support strings but they're not 1-indexed. You could call `s = array_from_iterable(s)`, but strings are mainly available for debugging messages rather than DP logic. Use an `Array` parameter if your function receives a string to make it 1-indexable.
 
 ## Usage
 
@@ -96,7 +96,7 @@ class Solution:
         return lcs(len(text1), len(text2), text1, text2)
 ```
 
-There are also command-line tools for LC but I haven't tried them. Efficiency might be impaired due to NumPy but I haven't checked.
+There are command-line submission tools for LC that could automate this. Efficiency might be impaired due to importing NumPy without taking advantage of vectorized operations.
 
 ## Testing Rene
 
