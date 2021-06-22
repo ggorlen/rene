@@ -6,9 +6,9 @@ This is a pseudocode to Python 3 transpiler for the OMSCS course [CS6515: Gradua
 
 ## Why?
 
-CS6515 requires you to use 1-based indexing and a heavily-constrained pseudocode to write dynamic programming problems on homework and exams. Many students practice DP problems in Python and lose points on homework and exams for using forbidden features, lack of fluency with the pseudocode or ignoring requirements.
+CS6515 requires you to use 1-based indexing and a heavily-constrained pseudocode to write dynamic programming problems on homework and exams. Many students practice DP problems in Python and lose points on homework and exams due to use of forbidden syntax and language features, lack of fluency with the pseudocode or 1-indexing or simply ignoring requirements.
 
-Rene makes it easy to transpile the pseudocode to Python.
+Rene makes it easy to transpile the pseudocode to Python, helping enforce the correct syntax.
 
 ## Name
 
