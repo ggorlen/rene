@@ -18,17 +18,17 @@ class Test(unittest.TestCase):
 
     def test_strings(self):
         """ test strings """
-        a = "asd"
-        b = "affd"
-        actual = Test.lcs(len(a), len(b), a, b)
-        self.assertEqual(actual, 2)
+        x = "asd"
+        y = "affd"
+        actual = Test.lcs(len(x), len(y), x, y)
+        self.assertEqual(actual, 2, f"x={x} ; y={y}")
 
     def test_lists(self):
         """ test lists """
-        a = [1, 4, 5, 1, 2]
-        b = [4, 1, 3, 2, 1, 5]
-        actual = Test.lcs(len(a), len(b), a, b)
-        self.assertEqual(actual, 3)
+        x = [1, 4, 5, 1, 2]
+        y = [4, 1, 3, 2, 1, 5]
+        actual = Test.lcs(len(x), len(y), x, y)
+        self.assertEqual(actual, 3, f"x={x} ; y={y}")
 
 if __name__ == "__main__":
     unittest.main(verbosity=1)

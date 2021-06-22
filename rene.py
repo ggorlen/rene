@@ -136,7 +136,7 @@ class MainIndenter(Indenter):
     tab_len = 4
 
 
-def generate_code(source_string=None, source_file=None, out_file=None):
+def generate_code(source_file=None, source_string=None, out_file=None):
     if source_string and source_file:
         raise ArgumentError("choose either source_string or source_file")
     
@@ -168,7 +168,7 @@ if __name__ == "__main__":
         sys.exit()
     
     if len(sys.argv) < 3:
-        print(generate_code(sys.argv[1]))
+        print(generate_code(source_file=sys.argv[1]))
     else:
-        generate_code(sys.argv[1], sys.argv[2])
+        generate_code(source_file=sys.argv[1], out_file=sys.argv[2])
 
