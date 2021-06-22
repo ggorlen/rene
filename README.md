@@ -65,7 +65,7 @@ Rene will translate any iterable parameters, including strings, into `np.array`s
 
 Python 3, Lark and NumPy (`pip install lark-parser numpy`).
 
-### Print code to stdout
+### To stdout
 
 ```
 python3 rene.py lcs.rene
@@ -74,19 +74,19 @@ python3 rene.py lcs.rene
 ### To file
 
 ```
-python3 rene.py lcs.rene > lcs.py
+python3 rene.py lcs.rene lcs.py
 ```
 
-If you want to run your code in a test harness, here's a possible setup:
+If you want to run your code in a test harness, see the `lcs_test.py` example. It might be smart to write your code to .py as well so you can look at it for line numbers for debugging errors (yes, this is not fancy).
 
-
-## Tests
+### Running tests
 
 Coming soon
 
 ## TODO
 
 - improve comments
+- add tests
 
 ## Issues and PRs
 
