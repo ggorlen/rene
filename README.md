@@ -2,7 +2,7 @@
 
 ## What?
 
-Unofficial Georgia Tech CS6515 Graduate Algorithms pseudocode to Python 3 transpiler.
+Unofficial Georgia Tech CS6515 Graduate Algorithms pseudocode to Python 3 toy transpiler.
 
 ## Why?
 
