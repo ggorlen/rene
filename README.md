@@ -41,7 +41,7 @@ There is no semantic analyzer in Rene, only parsing errors, so it's up to you to
 Rene uses an `Array` type as a wrapper for making [NumPy `array`s](https://numpy.org/doc/stable/reference/generated/numpy.array.html). `Array` prepends an extra row of uninitialized values on every dimension, giving you the option to index at 0 and enabling 1-based indexing otherwise.
 
 There are two function calls that make 1-indexed arrays:
-- `Array(*dimensions)` (alias: `Table`): this array is uninitialized so you'll need to write explicit loops to set values. You can use `INFINITY` and `NEGATIVE_INFINITY` instead of `float("inf")` to keep .
+- `Array(*dimensions)` (alias: `Table`): this array is uninitialized so you'll need to write explicit loops to set values. You can use `INFINITY` and `NEGATIVE_INFINITY` instead of `float("inf")`.
 - `array_from_iterable(it)`: converts an iterable to a 1-indexed iterable. You won't need to call this; the transpiler will insert calls for you on any `Array` parameters. Currently, Rene doesn't generate code to stop you from illegally accessing index 0 on these parameters since it's the same structure as your arrays/tables, so take care.
 
 Rene does support strings but they're not 1-indexed. You could call `s = array_from_iterable(s)`, but strings are mainly available for debugging messages rather than DP logic. Use an `Array` parameter if your function receives a string.
