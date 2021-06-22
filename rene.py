@@ -3,15 +3,10 @@ import sys
 from lark import Lark, Transformer, v_args
 from lark.indenter import Indenter
 
-class MainIndenter(Indenter):
-    NL_type = "_NL"
-    OPEN_PAREN_types = []
-    CLOSE_PAREN_types = []
-    INDENT_type = "_INDENT"
-    DEDENT_type = "_DEDENT"
-    tab_len = 4
 
-boilerplate = """######## rene boilerplate ########
+@lark.v_args(inline=True)
+class MainTransformer(Transformer):
+    boilerplate = """######## rene boilerplate ########
 import numpy as np
 
 def array_of_zeros(*dimensions, dtype=np.int32):
@@ -30,8 +25,6 @@ NEGATIVE_INFINITY = -INFINITY
 
 """
 
-@lark.v_args(inline=True)
-class MainTransformer(Transformer):
     def __init__(self):
         self.indent = 1
 
@@ -39,7 +32,7 @@ class MainTransformer(Transformer):
         return "    " * (self.indent if amount is None else amount)
 
     def start(self, *statements):
-        return boilerplate + "\n".join(statements)
+        return self.boilerplate + "\n".join(statements)
 
     def assignment(self, lhs, expr):
         return f"{lhs} = {expr}"
@@ -133,6 +126,16 @@ class MainTransformer(Transformer):
         arrs = "\n".join(arrs)
         return f"def {func_name}({', '.join(params[::2])}):\n{arrs}\n{block}"
 
+
+class MainIndenter(Indenter):
+    NL_type = "_NL"
+    OPEN_PAREN_types = []
+    CLOSE_PAREN_types = []
+    INDENT_type = "_INDENT"
+    DEDENT_type = "_DEDENT"
+    tab_len = 4
+
+
 def generate_code(source_file, out_file=None):
     parser = Lark.open(
         "rene.lark",
@@ -151,6 +154,7 @@ def generate_code(source_file, out_file=None):
             f.write(py_code)
 
     return py_code
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2 or len(sys.argv) > 3:

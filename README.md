@@ -54,10 +54,7 @@ This design decision adds a dependency on NumPy but cuts down on boilerplate and
 
 Rene will translate any iterable parameters, including strings, into `np.array`s. Rene does support plain strings but they're not 1-indexed and should only be used for debugging rather than DP logic.
 
-## Example: `lcs.rene`
-
-```
-```
+See `lcs.rene` for example code.
 
 ## Usage
 
