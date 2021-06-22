@@ -16,7 +16,7 @@ This language is named Rene after a frog that appeared in some homework problems
 
 ## Syntax
 
-See `lcs.rene` for example code.
+See [`lcs.rene`](lcs.rene) for example code and [`rene.lark`](rene.lark) for the grammar.
 
 This is a heavily constrained Python-like (whitespace significant) toy language that attempts to disallow any features or syntax that isn't allowed on homework or exams. Notably:
 
@@ -24,7 +24,7 @@ This is a heavily constrained Python-like (whitespace significant) toy language 
   - You should restrict your function calls to `max`, `min`, `abs` and that ilk.
 - No augmented assignments like `+=` or `++`. Use `foo = foo + 1`.
 - No dicts or dynamic arrays/lists. Use fixed arrays.
-- No `len(iterable)`. Add explicit length variables to the function header. You can write a wrapper for your test harness.
+- No `len(iterable)`. Add explicit length variables to the function header.
 - No `for i in range(0, n):`. Use `for i = 1 -> n:`, where `n` is inclusive and transpiles to `for i in range(1, n + 1)`.
 - No `and` and `or`. Use `&&` and `||`.
 - 4-space indentation only.
@@ -34,9 +34,7 @@ Some syntactical restrictions are due to my own ignorance. Please PR if you can 
 - Blank lines are allowed, but the spaces in the lines need to match the current indentation level.
 - `else if`, `elif` and `elsif` are `elseif` in this language. `else if` is probably safer for your submissions. That said, you probably won't need to use `else if`.
 
-You can infer the rest of the syntax from the example `lcs.rene` and grammar `rene.lark`.
-
-There is no semantic analyzer in Rene, only parsing errors, so it's up to you to debug everything else in Python, which will mostly look like the Rene code other than line numbers and a few extra array conversion calls.
+There is no semantic analyzer in Rene, only parsing errors, so it's up to you to debug in Python, which will mostly look like the Rene code other than line numbers and a few extra array conversion calls.
 
 ### Arrays and 1-indexing
 
@@ -44,9 +42,9 @@ Rene uses an `Array` type as a wrapper for making `np.array`s. `Array` prepends 
 
 There are two function calls that make 1-indexed arrays:
 - `array_of_zeros(*dimensions)` (alias: `table_of_zeros`): although this array is zero-initialized, it's a very good idea to write loops to initialize it explicitly.
-- `array_from_iterable(it)`: converts an iterable to a 1-indexable iterable. You won't need to call this. The transpiler will insert calls for you on any `Array` parameters to make them 1-indexed NumPy arrays. Currently, Rene doesn't generate code to stop you from illegally hitting index 0 on these parameters since it's the same structure as your arrays/tables, so take care.
+- `array_from_iterable(it)`: converts an iterable to a 1-indexable iterable. You won't need to call this. The transpiler will insert calls for you on any `Array` parameters to make them 1-indexable NumPy arrays. Currently, Rene doesn't generate code to stop you from illegally accessing index 0 on these parameters since it's the same structure as your arrays/tables, so take care.
 
-Rene does support plain strings but they're not 1-indexed. You could call `s = array_from_iterable(s)` but strings are mainly available for debugging messages rather than DP logic.
+Rene does support strings but they're not 1-indexed. You could call `s = array_from_iterable(s)`, but strings are mainly available for debugging messages rather than DP logic. Use an `Array` parameter if your function receives a string.
 
 ## Usage
 
@@ -86,7 +84,7 @@ py_code = rene.generate_code(source_string='print("hello")\n')
 
 ### Using a test harness
 
-If you want to run your code in a test harness, see `lcs_test.py`. It might be smart to write your code to file when you run tests so you can look at it for line numbers for debugging errors (yes, this is not fancy).
+If you want to run your code in a test harness, see [`lcs_test.py`](lcs_test.py). It might be smart to write your code to file when you run tests so you can look at it for line numbers for debugging errors (yes, this is not fancy).
 
 ### Testing Rene
 
