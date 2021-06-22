@@ -1,5 +1,5 @@
 function lcs(n: Int, m: Int, x: Array, y: Array):
-    T = array_of_zeros(n, m)
+    T = table_of_zeros(n, m)
     
     for i = 0 -> n:
         T[i][0] = 0
@@ -12,7 +12,8 @@ function lcs(n: Int, m: Int, x: Array, y: Array):
             if x[i] == y[j]:
                 T[i][j] = T[i-1][j-1] + 1
             else:
-                T[i][j] = max(T[i-1][j], T[i][j-1])
+                # comma indexing is also OK
+                T[i, j] = max(T[i-1, j], T[i, j-1])
     
     return T[n][m]
 

@@ -2,13 +2,13 @@
 
 ## What?
 
-This is a pseudocode to Python 3 transpiler for the OMSCS course [CS6515: Graduate Algorithms](http://omscs.wikidot.com/courses:cs6515).
+This is a pseudocode to Python 3 transpiler for the OMSCS course [CS6515 Graduate Algorithms](http://omscs.wikidot.com/courses:cs6515).
 
 ## Why?
 
 CS6515 requires you to use 1-based indexing and a heavily-constrained pseudocode to write dynamic programming problems on homework and exams. Many students practice DP problems in Python and lose points on homework and exams due to use of forbidden syntax and language features, lack of fluency with the pseudocode or 1-indexing or simply ignoring requirements.
 
-Rene makes it easy to transpile the pseudocode to Python, helping enforce the correct syntax.
+Rene transpiles the pseudocode to Python, enforcing the correct syntax.
 
 ## Name
 
@@ -42,7 +42,7 @@ Rene uses an `Array` type as a wrapper for making `np.array`s. `Array` prepends 
 
 There are two function calls that make 1-indexed arrays:
 - `array_of_zeros(*dimensions)` (alias: `table_of_zeros`): although this array is zero-initialized, it's a very good idea to write loops to initialize it explicitly.
-- `array_from_iterable(it)`: converts an iterable to a 1-indexable iterable. You won't need to call this. The transpiler will insert calls for you on any `Array` parameters to make them 1-indexable NumPy arrays. Currently, Rene doesn't generate code to stop you from illegally accessing index 0 on these parameters since it's the same structure as your arrays/tables, so take care.
+- `array_from_iterable(it)`: converts an iterable to a 1-indexed iterable. You won't need to call this; the transpiler will insert calls for you on any `Array` parameters. Currently, Rene doesn't generate code to stop you from illegally accessing index 0 on these parameters since it's the same structure as your arrays/tables, so take care.
 
 Rene does support strings but they're not 1-indexed. You could call `s = array_from_iterable(s)`, but strings are mainly available for debugging messages rather than DP logic. Use an `Array` parameter if your function receives a string.
 
@@ -84,7 +84,7 @@ py_code = rene.generate_code(source_string='print("hello")\n')
 
 ### Using a test harness
 
-If you want to run your code in a test harness, see [`lcs_test.py`](lcs_test.py). It might be smart to write your code to file when you run tests so you can look at it for line numbers for debugging errors (yes, this is not fancy).
+If you want to run your code in a test harness, see [`lcs_test.py`](lcs_test.py) and run it with `python3 lcs_test.py`. It might be smart to write your code to file when you run tests so you can look at it to debug errors (yes, this is not fancy).
 
 ### Testing Rene
 

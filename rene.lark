@@ -16,7 +16,7 @@ func_def: "function" NAME "(" ((NAME ":" type ",")* NAME ":" type)? "):" block
 return_statement: "return" expr _NL
 
 assignment: NAME "=" expr _NL
-array_assignment: NAME ("[" expr "]")+ "=" expr _NL
+array_assignment: NAME ("[" expr ("," expr)* "]")+ "=" expr _NL
 
 !if_block: "if" expr ":" block ("elseif" expr ":" block)* ("else" ":" block)?
 
@@ -38,7 +38,7 @@ from_import: "from" NAME "import" NAME ("," NAME)*
 string: STRING
 number: NUMBER
 identifier: NAME
-array_access: NAME ("[" expr "]")+
+array_access: NAME ("[" expr ("," expr)* "]")+
 func_call: NAME "(" ((expr ",")* expr)? ")"
 binary_operation: expr binary_operator expr
 paren_expr: "(" expr ")"
