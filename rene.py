@@ -136,7 +136,10 @@ class MainIndenter(Indenter):
     tab_len = 4
 
 
-def generate_code(source_file, out_file=None):
+def generate_code(source_string=None, source_file=None, out_file=None):
+    if source_string and source_file:
+        raise ArgumentError("choose either source_string or source_file")
+    
     parser = Lark.open(
         "rene.lark",
         rel_to=__file__,
@@ -144,9 +147,12 @@ def generate_code(source_file, out_file=None):
         postlex=MainIndenter(),
     )
 
-    with open(source_file) as f:
-        tree = parser.parse(f.read())
-
+    if source_file:
+        with open(source_file) as f:
+            tree = parser.parse(f.read())
+    else:
+        tree = parser.parse(source_string)
+        
     py_code = MainTransformer().transform(tree)
 
     if out_file is not None:

@@ -6,7 +6,7 @@ Unofficial Georgia Tech CS6515 Graduate Algorithms pseudocode to Python 3 transp
 
 ## Why?
 
-CS6515 requires you to use 1-based indexing and a heavily-constrained pseudocode to write dynamic programming problems on homework and exams. Naturally, students can't resist writing and running code for homework and practice. Many students practice DP problems with Python and subsequently lose points on homework and exams for using forbidden features, lack of fluency with the pseudocode during crunch time or outright ignoring requirements. Rene makes it easy to transpile pseudocode to Python to get the best of both worlds (or shoot yourself in the foot less horribly, hopefully; see disclaimer below).
+CS6515 requires you to use 1-based indexing and a heavily-constrained pseudocode to write dynamic programming problems on homework and exams. Naturally, students can't resist writing and running code for homework and practice. Many students practice DP problems with Python and subsequently lose points on homework and exams for using forbidden features, lack of fluency with the pseudocode during crunch time in an exam or outright ignoring requirements. Rene makes it easy to transpile pseudocode to Python to get the best of both worlds (or shoot yourself in the foot less horribly, hopefully; see disclaimer below).
 
 I also wanted an excuse to mess with Lark.
 
@@ -34,7 +34,7 @@ Rene is a heavily constrained Python-like (whitespace significant) toy language 
 - 4-space indentation only.
 - Only `/` is allowed for division. `//` is a comment. If you need floor division, add `from math import floor` and use `floor()` explicitly, but you probably won't need this, or floating point anything for that matter.
 
-Some syntactical restrictions are due to my own ignorance. Please PR if you can fix these.
+Some syntactical restrictions are due to my own ignorance. Please PR if you can fix these:
 - Blank lines are allowed, but the spaces in the lines need to match the current indentation level.
 - `else if`, `elif` and `elsif` are `elseif` in this language. `else if` is probably safer for your submissions, so you can manaully make that adjustment. That said, you probably won't need to use `else if`.
 
@@ -60,7 +60,7 @@ See `lcs.rene` for example code.
 
 ### Dependencies
 
-Python 3, Lark and NumPy (`pip install lark-parser numpy`).
+Python 3, [Lark](https://github.com/lark-parser/lark) and [NumPy](https://numpy.org) (`pip install lark-parser numpy`).
 
 ### To stdout
 
@@ -79,12 +79,19 @@ python3 rene.py lcs.rene lcs.py
 ```
 import rene
 
-# to string
+# from source file to string
 py_code = rene.generate_code(source_file="lcs.rene")
 
-# to file and string
+# from source file to out file and string
 py_code = rene.generate_code(source_file="lcs.rene", out_file="lcs.py")
+
+# from source code string to out file and string
+py_code = rene.generate_code(source_string='print("hello")', out_file="hello.py")
+
+# from source code string to string
+py_code = rene.generate_code(source_string='print("hello")')
 ```
+
 ### Using a test harness
 
 If you want to run your code in a test harness, see the `lcs_test.py` example. It might be smart to write your code to .py as well so you can look at it for line numbers for debugging errors (yes, this is not fancy).
@@ -95,7 +102,7 @@ Coming soon
 
 ## TODO
 
-- improve comments
+- improve comment support
 - add tests
 
 ## Issues and PRs
