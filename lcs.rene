@@ -1,5 +1,5 @@
 function lcs(n: Int, m: Int, x: Array, y: Array):
-    T = table_of_zeros(n, m)
+    T = Table(n, m)
     
     for i = 0 -> n:
         T[i][0] = 0

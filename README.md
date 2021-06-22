@@ -38,10 +38,10 @@ There is no semantic analyzer in Rene, only parsing errors, so it's up to you to
 
 ### Arrays and 1-indexing
 
-Rene uses an `Array` type as a wrapper for making `np.array`s. `Array` prepends an extra row of zeroes on every dimension, giving you the option to index at 0 and enabling 1-based indexing otherwise.
+Rene uses an `Array` type as a wrapper for making [NumPy `array`s](https://numpy.org/doc/stable/reference/generated/numpy.array.html). `Array` prepends an extra row of uninitialized values on every dimension, giving you the option to index at 0 and enabling 1-based indexing otherwise.
 
 There are two function calls that make 1-indexed arrays:
-- `array_of_zeros(*dimensions)` (alias: `table_of_zeros`): although this array is zero-initialized, it's a very good idea to write loops to initialize it explicitly.
+- `Array(*dimensions)` (alias: `Table`): this array is uninitialized so you'll need to write explicit loops to set values. You can use `INFINITY` and `NEGATIVE_INFINITY` instead of `float("inf")` to keep .
 - `array_from_iterable(it)`: converts an iterable to a 1-indexed iterable. You won't need to call this; the transpiler will insert calls for you on any `Array` parameters. Currently, Rene doesn't generate code to stop you from illegally accessing index 0 on these parameters since it's the same structure as your arrays/tables, so take care.
 
 Rene does support strings but they're not 1-indexed. You could call `s = array_from_iterable(s)`, but strings are mainly available for debugging messages rather than DP logic. Use an `Array` parameter if your function receives a string.
@@ -86,14 +86,28 @@ py_code = rene.generate_code(source_string='print("hello")\n')
 
 If you want to run your code in a test harness, see [`lcs_test.py`](lcs_test.py) and run it with `python3 lcs_test.py`. It might be smart to write your code to file when you run tests so you can look at it to debug errors (yes, this is not fancy).
 
-### Testing Rene
+### Leetcode
+
+Not really intended, but easy enough. Leetcode has NumPy, so you can run `python3 rene.py lcs.rene` and pipe to clipboard, paste into Leetcode's editor and call your solution from their stub:
+
+```python
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        return lcs(len(text1), len(text2), text1, text2)
+```
+
+There are also command-line tools for LC but I haven't tried them. Efficiency might be impaired due to NumPy but I haven't checked.
+
+## Testing Rene
 
 Coming soon
 
 ## TODO
 
 - improve comment and multiline string support
+- support unary minus?
 - add tests
+- support named parameters for function calls
 - make into a package for easier install
 
 ## Disclaimer

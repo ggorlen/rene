@@ -9,13 +9,13 @@ class MainTransformer(Transformer):
     boilerplate = """######## rene boilerplate ########
 import numpy as np
 
-def array_of_zeros(*dimensions, dtype=np.int32):
-    return np.zeros([x + 1 for x in dimensions], dtype)
-table_of_zeros = array_of_zeros
+def Array(*dimensions, dtype=np.int32):
+    return np.empty([x + 1 for x in dimensions], dtype)
+Table = Array
 
 def array_from_iterable(it):
     arr = np.array(tuple(it))
-    padded = np.zeros([1 + x for x in arr.shape], dtype=arr.dtype)
+    padded = np.empty([1 + x for x in arr.shape], dtype=arr.dtype)
     padded[tuple([slice(1, None) for _ in arr.shape])] = arr
     return padded
 
