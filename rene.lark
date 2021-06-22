@@ -1,0 +1,79 @@
+?start: statement*
+
+?statement: expr _NL
+          | blank_line
+          | comment
+          | for_block
+          | if_block
+          | func_def
+          | assignment
+          | array_assignment
+          | return_statement
+          | import
+          | from_import
+
+func_def: "function" NAME "(" ((NAME ":" type ",")* NAME ":" type)? "):" block
+return_statement: "return" expr _NL
+
+assignment: NAME "=" expr _NL
+array_assignment: NAME ("[" expr "]")+ "=" expr _NL
+
+!if_block: "if" expr ":" block ("elseif" expr ":" block)* ("else" ":" block)?
+
+for_block: "for" NAME "=" expr "->" expr ":" block
+
+import: "import" NAME _NL -> import_
+from_import: "from" NAME "import" NAME ("," NAME)*
+
+!comment: ("#" | "//") /[^\n]+/x _NL
+
+?expr: string
+     | number
+     | identifier
+     | array_access
+     | func_call
+     | binary_operation
+     | paren_expr
+
+string: STRING
+number: NUMBER
+identifier: NAME
+array_access: NAME ("[" expr "]")+
+func_call: NAME "(" ((expr ",")* expr)? ")"
+binary_operation: expr binary_operator expr
+paren_expr: "(" expr ")"
+
+!binary_operator: "+"
+                | "-"
+                | "/"
+                | "*"
+                | "%"
+                | ">"
+                | ">="
+                | "<"
+                | "<="
+                | "=="
+                | "||"
+                | "&&"
+                | "|"
+                | "&" 
+
+!type: "Int" -> type_ | "Array" -> type_
+
+?block: _NL indent statement+ dedent
+indent: _INDENT -> indent_
+dedent: _DEDENT
+
+%import common.CNAME -> NAME
+%import common.ESCAPED_STRING -> STRING
+%import common.NUMBER
+%import common.WS_INLINE
+
+%declare _INDENT _DEDENT
+
+%ignore WS_INLINE
+
+_NL: /\r?\n(    )*/
+blank_line: _NL
+//%import common.NEWLINE -> _NL
+
