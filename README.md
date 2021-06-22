@@ -2,7 +2,7 @@
 
 ## What?
 
-Unofficial Georgia Tech CS6515 Graduate Algorithms pseudocode to Python 3 transpiler.
+This is a pseudocode to Python 3 transpiler for the OMSCS course [CS6515: Graduate Algorithms](http://omscs.wikidot.com/courses:cs6515).
 
 ## Why?
 
@@ -60,7 +60,7 @@ See `lcs.rene` for example code.
 
 ### Dependencies
 
-Python 3, [Lark](https://github.com/lark-parser/lark) and [NumPy](https://numpy.org) (`pip install lark-parser numpy`).
+Python 3, [Lark](https://github.com/lark-parser/lark) and [NumPy](https://numpy.org) (`pip install lark-parser numpy`), then `git clone` this repo.
 
 ### To stdout
 
@@ -86,10 +86,10 @@ py_code = rene.generate_code(source_file="lcs.rene")
 py_code = rene.generate_code(source_file="lcs.rene", out_file="lcs.py")
 
 # from source code string to out file and string
-py_code = rene.generate_code(source_string='print("hello")', out_file="hello.py")
+py_code = rene.generate_code(source_string='print("hello")\n', out_file="hello.py")
 
 # from source code string to string
-py_code = rene.generate_code(source_string='print("hello")')
+py_code = rene.generate_code(source_string='print("hello")\n')
 ```
 
 ### Using a test harness
@@ -104,6 +104,7 @@ Coming soon
 
 - improve comment support
 - add tests
+- make package
 
 ## Issues and PRs
 
