@@ -46,7 +46,7 @@ There are two function calls that make 1-indexed arrays:
 - `array_of_zeros(*dimensions)` (alias: `table_of_zeros`): although this array is zero-initialized, it's a very good idea to write loops to initialize it explicitly.
 - `array_from_iterable(it)`: converts an iterable to a 1-indexable iterable. You won't need to call this. The transpiler will insert calls for you on any `Array` parameters to make them 1-indexed NumPy arrays. Currently, Rene doesn't generate code to stop you from illegally hitting index 0 on these parameters since it's the same structure as your arrays/tables, so take care.
 
-Rene will translate any iterable parameters, including strings, into `np.array`s. Your parameters will be either `Int`s or `Array`s. Rene does support plain strings but they're not 1-indexed. You could call `s = array_from_iterable(s)` but strings are mainly intended for debugging rather than DP logic.
+Rene does support plain strings but they're not 1-indexed. You could call `s = array_from_iterable(s)` but strings are mainly available for debugging messages rather than DP logic.
 
 ## Usage
 
@@ -94,7 +94,7 @@ Coming soon
 
 ## TODO
 
-- improve comment support
+- improve comment and multiline string support
 - add tests
 - make into a package for easier install
 
