@@ -6,19 +6,13 @@ This is a pseudocode to Python 3 transpiler for the OMSCS course [CS6515: Gradua
 
 ## Why?
 
-CS6515 requires you to use 1-based indexing and a heavily-constrained pseudocode to write dynamic programming problems on homework and exams. Many students practice DP problems in Python and subsequently lose points on homework and exams for using forbidden features, lack of fluency with the pseudocode during an exam or outright ignoring requirements.
+CS6515 requires you to use 1-based indexing and a heavily-constrained pseudocode to write dynamic programming problems on homework and exams. Many students practice DP problems in Python and lose points on homework and exams for using forbidden features, lack of fluency with the pseudocode or ignoring requirements.
 
-Rene makes it easy to transpile pseudocode to Python to get the best of both worlds (or shoot yourself in the foot less horribly, hopefully; see disclaimer below).
-
-I also wanted an excuse to mess with Lark.
+Rene makes it easy to transpile the pseudocode to Python.
 
 ## Name
 
 This language is named Rene after a frog that appeared in some homework problems when I took the course. Everyone loves Rene.
-
-## Disclaimer
-
-No guarantees expressed or implied. Use this software entirely at your own risk.
 
 ## Syntax
 
@@ -26,15 +20,15 @@ See `lcs.rene` for example code.
 
 This is a heavily constrained Python-like (whitespace significant) toy language that attempts to disallow any features or syntax that isn't allowed on homework or exams. Notably:
 
-- All you get are variables, ints, fixed-size arrays, loops, conditions and function calls. You can call plain Python functions like `print` but not instance methods.
+- All you get are variables, numbers, fixed-size arrays, loops, conditions and function calls. You can call plain Python functions like `print` but not instance methods.
   - You should restrict your function calls to `max`, `min`, `abs` and that ilk.
 - No augmented assignments like `+=` or `++`. Use `foo = foo + 1`.
-- No dicts or dynamic arrays/lists exist. Use fixed arrays.
-- No `len(iterable)`. Pass explicit length variables into the function header and use those or write a wrapper to do so in your test harness.
+- No dicts or dynamic arrays/lists. Use fixed arrays.
+- No `len(iterable)`. Add explicit length variables to the function header. You can write a wrapper for your test harness.
 - No `for i in range(0, n):`. Use `for i = 1 -> n:`, where `n` is inclusive and transpiles to `for i in range(1, n + 1)`.
 - No `and` and `or`. Use `&&` and `||`.
 - 4-space indentation only.
-- Only `/` is allowed for division. `//` is a comment. If you need floor division, add `from math import floor` and use `floor()` explicitly, but you probably won't need this, or floating point anything for that matter.
+- Only `/` is allowed for division. `//` is a comment. If you need floor division, add `from math import floor` and call `floor()` explicitly, but you probably won't need this, or floating point anything.
 
 Some syntactical restrictions are due to my own ignorance. Please PR if you can fix these:
 - Blank lines are allowed, but the spaces in the lines need to match the current indentation level.
@@ -52,13 +46,13 @@ There are two function calls that make 1-indexed arrays:
 - `array_of_zeros(*dimensions)` (alias: `table_of_zeros`): although this array is zero-initialized, it's a very good idea to write loops to initialize it explicitly.
 - `array_from_iterable(it)`: converts an iterable to a 1-indexable iterable. You won't need to call this. The transpiler will insert calls for you on any `Array` parameters to make them 1-indexed NumPy arrays. Currently, Rene doesn't generate code to stop you from illegally hitting index 0 on these parameters since it's the same structure as your arrays/tables, so take care.
 
-Rene will translate any iterable parameters, including strings, into `np.array`s. Your parameters will pretty much always be `Int`s and `Array`s. Rene does support plain strings but they're not 1-indexed and should only be used for debugging rather than DP logic.
+Rene will translate any iterable parameters, including strings, into `np.array`s. Your parameters will be either `Int`s or `Array`s. Rene does support plain strings but they're not 1-indexed. You could call `s = array_from_iterable(s)` but strings are mainly intended for debugging rather than DP logic.
 
 ## Usage
 
 ### Dependencies
 
-Python 3, [Lark](https://github.com/lark-parser/lark) and [NumPy](https://numpy.org) (`pip install lark-parser numpy`), then `git clone` this repo.
+Python 3, [Lark](https://github.com/lark-parser/lark) and [NumPy](https://numpy.org). `pip install lark-parser numpy` and download or clone this repo.
 
 ### To stdout
 
@@ -74,7 +68,7 @@ python3 rene.py lcs.rene lcs.py
 
 ### As a module
 
-```
+```python
 import rene
 
 # from source file to string
@@ -92,7 +86,7 @@ py_code = rene.generate_code(source_string='print("hello")\n')
 
 ### Using a test harness
 
-If you want to run your code in a test harness, see the `lcs_test.py` example. It might be smart to write your code to .py as well so you can look at it for line numbers for debugging errors (yes, this is not fancy).
+If you want to run your code in a test harness, see `lcs_test.py`. It might be smart to write your code to file when you run tests so you can look at it for line numbers for debugging errors (yes, this is not fancy).
 
 ### Testing Rene
 
@@ -102,9 +96,13 @@ Coming soon
 
 - improve comment support
 - add tests
-- make package
+- make into a package for easier install
+
+## Disclaimer
+
+No guarantees expressed or implied. Use this software entirely at your own risk.
 
 ## Issues and PRs
 
-Yes, please
+Yes, please and thanks!
 
