@@ -9,7 +9,7 @@ class MainTransformer(Transformer):
     boilerplate = """######## rene boilerplate ########
 import numpy as np
 
-def Array(*dimensions, dtype=np.int32):
+def Array(*dimensions, dtype=np.int64):
     return np.empty([x + 1 for x in dimensions], dtype)
 Table = Array
 
