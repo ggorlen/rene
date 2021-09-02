@@ -8,8 +8,11 @@ from lark.indenter import Indenter
 class MainTransformer(Transformer):
     boilerplate = """######## rene boilerplate ########
 import numpy as np
+INT_DTYPE = np.int64
+MAX_INT = INFINITY = np.iinfo(INT_DTYPE).max
+MIN_INT = NEGATIVE_INFINITY = np.iinfo(INT_DTYPE).min
 
-def Array(*dimensions, dtype=np.int64):
+def Array(*dimensions, dtype=INT_DTYPE):
     return np.empty([x + 1 for x in dimensions], dtype)
 Table = Array
 
@@ -18,9 +21,6 @@ def array_from_iterable(it):
     padded = np.empty([1 + x for x in arr.shape], dtype=arr.dtype)
     padded[tuple([slice(1, None) for _ in arr.shape])] = arr
     return padded
-
-INFINITY = float("inf")
-NEGATIVE_INFINITY = -INFINITY
 ######## end rene boilerplate ########
 
 """
